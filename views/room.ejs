@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidzy</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js" ></script>
+    <script src="https://unpkg.com/peerjs@1.4.5/dist/peerjs.min.js"></script>
+    <script src="https://kit.fontawesome.com/a0c96bf663.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script>
+        const ROOM_ID = "<%= roomId %>"
+     </script>
+</head>
+<body>
+
+    <div class="main">
+        <div class="main__left">
+            <div class="main__videos">
+                <div id="video-grid">
+
+                </div>
+            </div>
+            <div class="main__controls">
+                <div class="main__controls__block">
+                    <div onclick = "muteUnmute()" class="main__controls__button main__mute_button">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                        <span>Mute</span>
+                    </div>
+                    <div onclick="playStop()" class="main__controls__button main__video_button" >
+                        <i class="fa-solid fa-video"></i>
+                        <span>Stop Video</span>
+                    </div>
+                </div>
+                <div class="main__controls__block">
+                    <div class="main__controls__button">
+                        <!-- <i class="fa-solid fa-shield-halved"></i> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.4em" height="1.6em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M8 14.933a.615.615 0 0 0 .1-.025c.076-.023.174-.061.294-.118c.24-.113.547-.29.893-.533a10.726 10.726 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067v13.866zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453a7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625a11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43A62.456 62.456 0 0 1 5.072.56z"/></svg>
+                        <span>Security</span>
+                    </div>
+                    <div class="main__controls__button">
+                        <!-- <i class="fa-solid fa-users"></i> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="1.6em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256"><path fill="currentColor" d="M64 140a7.9 7.9 0 0 1-8 8H12a8.2 8.2 0 0 1-7.2-4.4a8.2 8.2 0 0 1 .8-8.4A67.8 67.8 0 0 1 33 113.5a40 40 0 1 1 66.3-37a8.1 8.1 0 0 1-3.8 8.4a64.3 64.3 0 0 0-27.8 33.8A61.6 61.6 0 0 0 64 140Zm186.4-4.8a67.8 67.8 0 0 0-27.4-21.7a40 40 0 1 0-66.3-37a8.1 8.1 0 0 0 3.8 8.4a64 64 0 0 1 27.8 33.8A61.6 61.6 0 0 1 192 140a7.9 7.9 0 0 0 8 8h44a8 8 0 0 0 6.4-12.8Zm-93.2 42.9a48 48 0 1 0-58.4 0a72.1 72.1 0 0 0-35.6 34.4a7.8 7.8 0 0 0 .5 7.7a7.8 7.8 0 0 0 6.7 3.8h115.2a7.8 7.8 0 0 0 6.7-3.8a7.8 7.8 0 0 0 .5-7.7a72.1 72.1 0 0 0-35.6-34.4Z"/></svg>
+                        <span>Participants</span>
+                    </div>
+                    <div class="main__controls__button">
+                        <!-- <i class="fa-solid fa-comment"></i> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1.6em" height="1.6em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256"><path fill="currentColor" d="M236 96a20.1 20.1 0 0 0-20-20h-28V48a20.1 20.1 0 0 0-20-20H40a20.1 20.1 0 0 0-20 20v128a12 12 0 0 0 12 12a11.5 11.5 0 0 0 7.5-2.7l28.5-23V184a20.1 20.1 0 0 0 20 20h92.2l36.3 29.3a11.5 11.5 0 0 0 7.5 2.7a12 12 0 0 0 12-12ZM44 150.9V52h120v80H71.6a11.8 11.8 0 0 0-7.6 2.7Zm148 31.8a11.8 11.8 0 0 0-7.6-2.7H92v-24h76a20.1 20.1 0 0 0 20-20v-36h24v98.9Z"/></svg>           
+                        <span>Chat</span>
+                    </div>
+                </div>
+                <div class="main__controls__block">
+                    <div class="main__controls__button">
+                        <span class="leave_meeting">Leave Meeting</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main__right">
+            <div class="main__header">
+               <h6>Chat</h6>
+            </div>
+            <div class="main__chat_window">
+                <ul class="messages"> 
+                </ul>
+            </div>
+            <div class="main__message_container">
+                <input id="chat_message" type="text" placeholder="Type message here...">
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
